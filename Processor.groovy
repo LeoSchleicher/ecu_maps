@@ -52,12 +52,16 @@ class Processor {
     // println "calculating..."
     def map = this.maps[map_name]
 
+    def inputs = []
+    def lows = []
+    def highs = []
 
     def axis_pos = 0 // bottom range in all dimensions
     def dim_multiplier = 1
     map.axes.eachWithIndex {axis, dimension ->
       // println "processing axis: "+axis
       def input = process_map(axis) // recursive find input value
+      inputs << input
       // println "got input value for axis "+axis+": "+input
       def input_ranges = map.headers[axis]
       // println "input ranges: "+input_ranges
@@ -71,11 +75,15 @@ class Processor {
         if(j <= maxrange){
           if(input_ranges[i] <= input && input_ranges[j] > input){
             apos = i
+            lows << input_ranges[i]
+            highs << input_ranges[j]
             break
           }
         } else { // last range
           if(input >= input_ranges[maxrange]){
             apos = maxrange
+            lows << input_ranges[maxrange]
+            highs << input_ranges[maxrange]
           }
         }
       }
@@ -86,7 +94,17 @@ class Processor {
     }
     // println "resulting value offset: " + axis_pos
 
-    def val = map.values[axis_pos]
+    def val = map.values[axis_pos] // by "exact maps this is end value"
+    if(map.type == "interpolated"){
+      println "got interpolation map"
+      println inputs
+      println lows
+      println highs
+      inputs.eachWithIndex {inp, idx ->
+        
+      }
+    }
+
     this.calculated_maps[map_name] = val // cache it
     return val
   }

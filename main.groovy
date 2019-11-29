@@ -1,6 +1,7 @@
 
 // one dimensional map
 def map1 = [
+  type:"interpolated",
   desc:"temp gauge needle gegrees",
   axes: ["temp"],
   headers:[
@@ -11,6 +12,7 @@ def map1 = [
 
 // two-dimensions map
 def twodimMap = [
+  type:"exact",
   desc:"multiply two values",
   axes: ["val1","val2"],
   headers:[
@@ -28,6 +30,7 @@ def twodimMap = [
 
 // three-dimensions map
 def threedimMap = [
+  type:"exact",
   desc:"cubic map",
   axes: ["x","y","z"],
   headers:[

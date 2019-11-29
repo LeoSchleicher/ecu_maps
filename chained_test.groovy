@@ -1,4 +1,5 @@
 def transformMap1 = [
+  type:"exact",
   desc:"take input from 1 to 10 and multiply it with 4",
   axes: ["val1"],
   headers:[
@@ -8,6 +9,7 @@ def transformMap1 = [
 ]
 
 def transformMap2 = [
+  type:"exact",
   desc:"take inputs from 0 to 100 and substract 2, bun only in positive range",
   axes: ["map1"], // takes result values from map1
   headers:[
