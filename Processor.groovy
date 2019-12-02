@@ -55,8 +55,11 @@ class Processor {
     def inputs = []
     def lows = []
     def highs = []
+    def mins = []
+    def maxs = []
 
     def axis_pos = 0 // bottom range in all dimensions
+    def axis_next_pos = 0
     def dim_multiplier = 1
     map.axes.eachWithIndex {axis, dimension ->
       // println "processing axis: "+axis
@@ -70,11 +73,13 @@ class Processor {
       }
       def maxrange = input_ranges.size() -1
       def apos = 0 // value index in current dimension
+      def apos_next = 0 // value index for next value in current dimension
       for(int i = 0; i < input_ranges.size(); i++){
         def j = i+1
         if(j <= maxrange){
           if(input_ranges[i] <= input && input_ranges[j] > input){
             apos = i
+            apos_next = j
             lows << input_ranges[i]
             highs << input_ranges[j]
             break
@@ -82,6 +87,7 @@ class Processor {
         } else { // last range
           if(input >= input_ranges[maxrange]){
             apos = maxrange
+            apos_next = maxrange
             lows << input_ranges[maxrange]
             highs << input_ranges[maxrange]
           }
@@ -89,8 +95,13 @@ class Processor {
       }
       // println "got position in axis "+axis+": "+apos
       def map_offset = apos * dim_multiplier
-      // println "additional map offset: "+map_offset
       axis_pos += map_offset
+      mins <<  map.values[axis_pos]
+      def map_next_offset = apos_next * dim_multiplier
+      axis_next_pos += map_next_offset
+      maxs << map.values[axis_next_pos]
+      // println "additional map offset: "+map_offset
+
     }
     // println "resulting value offset: " + axis_pos
 
@@ -100,8 +111,10 @@ class Processor {
       println inputs
       println lows
       println highs
+      println mins
+      println maxs
       inputs.eachWithIndex {inp, idx ->
-        
+        // calc vector for this dimension
       }
     }
 
